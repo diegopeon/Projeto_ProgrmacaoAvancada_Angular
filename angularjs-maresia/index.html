@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR" ng-app="maresiaApp">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maresia Log | AngularJS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body ng-controller="MainController">
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Maresia Log">
+      <span class="brand__mark">ML</span>
+      <span>Maresia Log</span>
+    </a>
+
+    <nav class="nav" aria-label="Menu principal">
+      <a href="#solucao">Solução</a>
+      <a href="#rotas">Rotas</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <button class="button button--ghost" ng-click="confirmSchedule()">Simular coleta</button>
+  </header>
+
+  <main id="top">
+    <section class="hero section-pad">
+      <div class="hero__content reveal">
+        <span class="eyebrow">Logística refrigerada · Salvador e RMS</span>
+        <h1>Entrega fresca, rastreada e sem improviso para produtores locais.</h1>
+        <p>
+          A Maresia Log conecta pequenos produtores de alimentos frescos a restaurantes,
+          cafés e mercados de bairro com rotas refrigeradas, janelas claras e operação simples.
+        </p>
+        <div class="hero__actions">
+          <button class="button" ng-click="confirmSchedule()">Agendar rota piloto</button>
+          <button class="button button--soft" ng-click="reportIssue()">Ver alerta operacional</button>
+        </div>
+      </div>
+
+      <aside class="route-card reveal" aria-label="Resumo operacional">
+        <div class="route-card__top">
+          <span>Hoje · 06:40</span>
+          <strong>Rota Rio Vermelho</strong>
+        </div>
+        <div class="temperature">
+          <span>Temperatura média</span>
+          <strong>4,2°C</strong>
+        </div>
+        <div class="mini-map">
+          <span></span><span></span><span></span><span></span>
+        </div>
+        <p>12 entregas previstas · 2 coletas pendentes · janela final às 11:30</p>
+      </aside>
+    </section>
+
+    <section id="solucao" class="section section-pad">
+      <div class="section-heading">
+        <span class="eyebrow">Componentes obrigatórios em contexto real</span>
+        <h2>Um painel enxuto para quem vende comida fresca e não pode perder qualidade no caminho.</h2>
+      </div>
+
+      <div class="component-grid">
+        <article class="panel">
+          <h3>Abas por público</h3>
+          <m-tabs tabs="tabs"></m-tabs>
+        </article>
+
+        <article class="panel">
+          <h3>Progresso da implantação</h3>
+          <m-progress value="onboardingProgress"></m-progress>
+        </article>
+      </div>
+    </section>
+
+    <section id="rotas" class="section section-pad section--warm">
+      <div class="section-heading section-heading--row">
+        <div>
+          <span class="eyebrow">Rotas da semana</span>
+          <h2>Entregas organizadas por bairro, carga e status.</h2>
+        </div>
+        <m-dropdown options="bairros" selected="selectedBairro" on-select="selectBairro(option)"></m-dropdown>
+      </div>
+
+      <div class="route-list">
+        <article class="route-row" ng-repeat="item in getPagedRotas() track by item.rota">
+          <span class="route-row__code">{{ item.rota }}</span>
+          <div>
+            <strong>{{ item.entrega }}</strong>
+            <p>{{ item.bairro }}</p>
+          </div>
+          <em>{{ item.status }}</em>
+        </article>
+      </div>
+
+      <m-pagination current-page="currentPage" total-pages="totalPages" on-change="changePage(page)"></m-pagination>
+    </section>
+
+    <section id="faq" class="section section-pad">
+      <div class="section-heading">
+        <span class="eyebrow">Perguntas frequentes</span>
+        <h2>Dúvidas reais antes de contratar uma rota refrigerada compartilhada.</h2>
+      </div>
+      <m-accordion items="faqItems"></m-accordion>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Projeto acadêmico fictício · Maresia Log · AngularJS</p>
+  </footer>
+
+  <m-toast toast="toast" on-close="closeToast()"></m-toast>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+  <script src="src/app.js"></script>
+  <script src="src/services/dataService.js"></script>
+  <script src="src/services/toastService.js"></script>
+  <script src="src/controllers/mainController.js"></script>
+  <script src="src/directives/mAccordion.js"></script>
+  <script src="src/directives/mPagination.js"></script>
+  <script src="src/directives/mProgress.js"></script>
+  <script src="src/directives/mTabs.js"></script>
+  <script src="src/directives/mDropdown.js"></script>
+  <script src="src/directives/mToast.js"></script>
+</body>
+</html>
