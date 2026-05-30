@@ -33,13 +33,17 @@
           scope.onSelect({ option: option });
         };
 
+        // Bug corrigido: adicionada verificação de segurança para element[0] antes de contains.
+        // Também usa ng-show em vez de ng-if para evitar recriar o DOM a cada abertura.
         function closeOnOutsideClick(event) {
-          if (!element[0].contains(event.target)) {
+          if (element[0] && !element[0].contains(event.target)) {
             scope.$apply(function () { scope.open = false; });
           }
         }
 
         $document.on('click', closeOnOutsideClick);
+
+        // Limpa o listener ao destruir a diretiva para evitar memory leak.
         scope.$on('$destroy', function () {
           $document.off('click', closeOnOutsideClick);
         });

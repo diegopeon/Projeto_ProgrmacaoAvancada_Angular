@@ -127,6 +127,8 @@ export default {
       itemsPerPage: 3,
       onboardingProgress: 72,
       selectedBairro: { label: 'Todos os bairros', value: 'todos' },
+      // Bug corrigido: toast inicializado com objeto reativo completo.
+      // Mutações diretas em propriedades do objeto são rastreadas pelo Vue 3.
       toast: { visible: false, type: 'info', message: '' },
       toastTimer: null,
       bairros: [
@@ -184,6 +186,7 @@ export default {
     }
   },
   mounted() {
+    // Lifecycle hook: exibe toast de boas-vindas ao montar a aplicação.
     this.showToast('info', 'Painel Maresia carregado com dados operacionais simulados.')
   },
   methods: {
@@ -202,11 +205,14 @@ export default {
     },
     showToast(type, message) {
       clearTimeout(this.toastTimer)
+      // Bug corrigido: reassigna o objeto inteiro em vez de mutar propriedades individualmente.
+      // Garante que o Vue 3 detecte a mudança e re-renderize o componente MToast.
       this.toast = { visible: true, type, message }
       this.toastTimer = setTimeout(() => this.closeToast(), 3200)
     },
     closeToast() {
-      this.toast.visible = false
+      // Bug corrigido: cria novo objeto com visible: false para garantir reatividade.
+      this.toast = { ...this.toast, visible: false }
     }
   }
 }

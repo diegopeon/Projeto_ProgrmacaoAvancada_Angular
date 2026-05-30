@@ -24,9 +24,11 @@ export default {
     return { open: false }
   },
   mounted() {
+    // Lifecycle hook: registra listener ao montar o componente.
     document.addEventListener('click', this.closeOnOutsideClick)
   },
   beforeUnmount() {
+    // Limpa o listener ao desmontar para evitar memory leak.
     document.removeEventListener('click', this.closeOnOutsideClick)
   },
   methods: {
@@ -39,7 +41,12 @@ export default {
       this.$emit('select-option', option)
     },
     closeOnOutsideClick(event) {
-      if (!this.$refs.dropdown.contains(event.target)) this.open = false
+      // Bug corrigido: verifica se $refs.dropdown existe antes de chamar contains().
+      // Sem essa guarda, se o componente for desmontado enquanto o listener ainda está
+      // ativo, ocorre TypeError: Cannot read properties of undefined (reading 'contains').
+      if (this.$refs.dropdown && !this.$refs.dropdown.contains(event.target)) {
+        this.open = false
+      }
     }
   }
 }

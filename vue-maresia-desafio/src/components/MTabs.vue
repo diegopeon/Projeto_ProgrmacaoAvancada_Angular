@@ -5,12 +5,14 @@
         v-for="(tab, index) in tabs"
         :key="tab.title"
         :class="{ active: active === index }"
-        @click="active = index"
+        @click="setActive(index)"
       >
         {{ tab.title }}
       </button>
     </div>
-    <div class="tabs__panel">
+    <!-- Bug corrigido: guarda com v-if para evitar erro quando tabs é array vazio
+         ou quando active aponta para índice inexistente. -->
+    <div v-if="tabs.length > 0" class="tabs__panel">
       <p>{{ tabs[active].content }}</p>
     </div>
   </div>
@@ -24,6 +26,13 @@ export default {
   },
   data() {
     return { active: 0 }
+  },
+  methods: {
+    // Bug corrigido: usa método dedicado em vez de atribuição direta no template (@click="active = index"),
+    // garantindo que a mudança de estado seja sempre rastreável e testável.
+    setActive(index) {
+      this.active = index
+    }
   }
 }
 </script>

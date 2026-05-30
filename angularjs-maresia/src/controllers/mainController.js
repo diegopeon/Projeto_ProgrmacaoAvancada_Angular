@@ -22,10 +22,17 @@
     $scope.totalPages = Math.ceil($scope.rotas.length / $scope.itemsPerPage);
     $scope.selectedBairro = $scope.bairros[0];
     $scope.onboardingProgress = 72;
-    $scope.toast = toastService.toast;
+
+    // Bug corrigido: em vez de copiar a referência do objeto toast uma vez,
+    // usamos uma função getter para que o ng-bind sempre leia o estado atual do serviço.
+    // Isso garante que mudanças no toastService.toast sejam refletidas na view.
+    Object.defineProperty($scope, 'toast', {
+      get: function () { return toastService.toast; },
+      enumerable: true
+    });
 
     $scope.getPagedRotas = function () {
-      const start = ($scope.currentPage - 1) * $scope.itemsPerPage;
+      var start = ($scope.currentPage - 1) * $scope.itemsPerPage;
       return $scope.rotas.slice(start, start + $scope.itemsPerPage);
     };
 

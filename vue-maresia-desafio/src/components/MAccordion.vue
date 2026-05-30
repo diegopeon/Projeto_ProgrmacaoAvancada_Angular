@@ -24,7 +24,11 @@ export default {
     items: { type: Array, required: true }
   },
   data() {
-    return { opened: 0 }
+    return {
+      // Bug corrigido: começa com null (nenhum item aberto) conforme especificação.
+      // Antes estava em 0, o que abria o primeiro item automaticamente.
+      opened: null
+    }
   },
   methods: {
     toggle(index) {

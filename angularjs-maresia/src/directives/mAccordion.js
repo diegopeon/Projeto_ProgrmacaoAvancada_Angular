@@ -8,15 +8,20 @@
       scope: { items: '=' },
       template:
         '<div class="accordion">' +
-          '<article class="accordion__item" ng-repeat="item in items track by $index" ng-class="{ active: opened === $index }">' +
+          '<article class="accordion__item" ng-repeat="item in items track by $index"' +
+            ' ng-class="{ active: opened === $index }">' +
             '<button class="accordion__trigger" ng-click="toggle($index)">' +
-              '<span>{{ item.title }}</span><strong>{{ opened === $index ? "−" : "+" }}</strong>' +
+              '<span>{{ item.title }}</span>' +
+              '<strong>{{ opened === $index ? "−" : "+" }}</strong>' +
             '</button>' +
             '<div class="accordion__content"><p>{{ item.content }}</p></div>' +
           '</article>' +
         '</div>',
       link: function (scope) {
-        scope.opened = 0;
+        // Bug corrigido: começa com null (nenhum item aberto) conforme especificação.
+        // Antes estava em 0, o que abria o primeiro item automaticamente sem indicação clara.
+        scope.opened = null;
+
         scope.toggle = function (index) {
           scope.opened = scope.opened === index ? null : index;
         };
