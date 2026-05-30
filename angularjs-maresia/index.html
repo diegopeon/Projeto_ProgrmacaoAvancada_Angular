@@ -12,7 +12,13 @@
 <body ng-controller="MainController">
   <header class="site-header">
     <a class="brand" href="#top" aria-label="Maresia Log">
-      <span class="brand__mark">ML</span>
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" role="img">
+          <path class="brand__wave" d="M8 29c5.8-6.2 11.6-6.2 17.4 0 4.7 5 9.4 5 14.6 0" />
+          <path class="brand__route" d="M15 18c3-5.8 12-5.8 15 0 1.9 3.7-.2 8-7.5 14-7.3-6-9.4-10.3-7.5-14Z" />
+          <circle cx="22.5" cy="19.5" r="3.3" />
+        </svg>
+      </span>
       <span>Maresia Log</span>
     </a>
 
@@ -22,7 +28,7 @@
       <a href="#faq">FAQ</a>
     </nav>
 
-    <button class="button button--ghost" ng-click="confirmSchedule()">Simular coleta</button>
+    <button class="button button--ghost" ng-click="openPickupModal()">Simular coleta</button>
   </header>
 
   <main id="top">
@@ -35,24 +41,30 @@
           cafés e mercados de bairro com rotas refrigeradas, janelas claras e operação simples.
         </p>
         <div class="hero__actions">
-          <button class="button" ng-click="confirmSchedule()">Agendar rota piloto</button>
-          <button class="button button--soft" ng-click="reportIssue()">Ver alerta operacional</button>
+          <button class="button" ng-click="openPilotModal()">Agendar rota piloto</button>
+          <button class="button button--alert" ng-click="openAlertModal()">Ver alerta operacional</button>
         </div>
       </div>
 
       <aside class="route-card reveal" aria-label="Resumo operacional">
         <div class="route-card__top">
-          <span>Hoje · 06:40</span>
-          <strong>Rota Rio Vermelho</strong>
+          <span>{{ operationSummary.currentTime }}</span>
+          <strong>{{ operationSummary.activeRoute }}</strong>
         </div>
         <div class="temperature">
           <span>Temperatura média</span>
-          <strong>4,2°C</strong>
+          <strong>{{ formatTemperature(operationSummary.averageTemperature) }}</strong>
         </div>
-        <div class="mini-map">
-          <span></span><span></span><span></span><span></span>
+        <div class="mini-map" aria-label="Leituras de temperatura">
+          <span
+            ng-repeat="reading in temperatureBars track by $index"
+            ng-style="{ height: reading.height + '%' }"
+            title="{{ reading.label }} · {{ formatTemperature(reading.value) }}">
+            <small>{{ formatTemperature(reading.value) }}</small>
+          </span>
         </div>
-        <p>12 entregas previstas · 2 coletas pendentes · janela final às 11:30</p>
+        <p>{{ operationSummary.plannedDeliveries }} entregas previstas · {{ operationSummary.pendingPickups }} coletas pendentes · janela final às {{ operationSummary.finalWindow }}</p>
+        <p class="route-card__event">{{ operationSummary.lastEvent }}</p>
       </aside>
     </section>
 
@@ -85,7 +97,7 @@
       </div>
 
       <div class="route-list">
-        <article class="route-row" ng-repeat="item in getPagedRotas() track by item.rota">
+        <article class="route-row" ng-class="getRouteClass(item)" ng-repeat="item in getPagedRotas() track by item.rota">
           <span class="route-row__code">{{ item.rota }}</span>
           <div>
             <strong>{{ item.entrega }}</strong>
@@ -110,6 +122,76 @@
   <footer class="footer">
     <p>Projeto acadêmico fictício · Maresia Log · AngularJS</p>
   </footer>
+
+  <div class="modal-backdrop" ng-if="activeModal" ng-click="closeModal()">
+    <section class="modal" role="dialog" aria-modal="true" ng-click="$event.stopPropagation()">
+      <button class="modal__close" type="button" aria-label="Fechar" ng-click="closeModal()">×</button>
+
+      <form ng-if="activeModal === 'pickup'" ng-submit="confirmPickup()">
+        <span class="eyebrow">Simulação de coleta</span>
+        <h2>Registrar coleta refrigerada</h2>
+        <label>
+          Rota
+          <select ng-model="pickupForm.rota" ng-options="rota.rota as (rota.rota + ' · ' + rota.bairro + ' · ' + rota.entrega) for rota in rotas" required></select>
+        </label>
+        <label>
+          Responsável pela coleta
+          <input type="text" ng-model="pickupForm.responsavel" placeholder="Ex.: Ana Souza" required>
+        </label>
+        <div class="form-grid">
+          <label>
+            Temperatura aferida
+            <input type="number" min="-5" max="15" step="0.1" ng-model="pickupForm.temperatura" required>
+          </label>
+          <label>
+            Janela de coleta
+            <input type="text" ng-model="pickupForm.janela" placeholder="Ex.: 08:30" required>
+          </label>
+        </div>
+        <button class="button" type="submit">Confirmar coleta</button>
+      </form>
+
+      <form ng-if="activeModal === 'pilot'" ng-submit="confirmPilotRoute()">
+        <span class="eyebrow">Rota piloto</span>
+        <h2>Agendar nova rota</h2>
+        <label>
+          Bairro atendido
+          <select ng-model="pilotForm.bairro" ng-options="bairro.label as bairro.label for bairro in operationalBairros" required></select>
+        </label>
+        <label>
+          Produtor parceiro
+          <input type="text" ng-model="pilotForm.produtor" placeholder="Ex.: Sítio Mar Azul" required>
+        </label>
+        <label>
+          Carga refrigerada
+          <input type="text" ng-model="pilotForm.entrega" placeholder="Ex.: Queijos artesanais" required>
+        </label>
+        <div class="form-grid">
+          <label>
+            Temperatura prevista
+            <input type="number" min="-5" max="15" step="0.1" ng-model="pilotForm.temperatura" required>
+          </label>
+          <label>
+            Janela final
+            <input type="text" ng-model="pilotForm.janelaFinal" placeholder="Ex.: 11:30" required>
+          </label>
+        </div>
+        <button class="button" type="submit">Salvar rota piloto</button>
+      </form>
+
+      <div class="alerts-panel" ng-if="activeModal === 'alerts'">
+        <span class="eyebrow">Alerta operacional</span>
+        <h2>Condições que pedem atenção</h2>
+        <div class="alert-list">
+          <article class="alert-item" ng-class="'alert-item--' + alert.level" ng-repeat="alert in operationSummary.alerts track by $index">
+            <strong>{{ alert.title }}</strong>
+            <p>{{ alert.message }}</p>
+          </article>
+        </div>
+        <button class="button button--soft" type="button" ng-click="closeModal()">Entendi</button>
+      </div>
+    </section>
+  </div>
 
   <m-toast toast="toast" on-close="closeToast()"></m-toast>
 

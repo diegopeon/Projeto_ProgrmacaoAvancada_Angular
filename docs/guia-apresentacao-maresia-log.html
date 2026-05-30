@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Guia de Apresentação - Maresia Log</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 16mm;
+    }
+
+    :root {
+      --ink: #17211e;
+      --muted: #586760;
+      --line: #d8ded9;
+      --green: #1f6b4f;
+      --soft-green: #e9f4ee;
+      --sand: #f0d58f;
+      --clay: #c86544;
+      --panel: #f8faf8;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11.5pt;
+      line-height: 1.48;
+      background: white;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 1.15;
+    }
+
+    h1 {
+      font-size: 31pt;
+      letter-spacing: -0.04em;
+    }
+
+    h2 {
+      margin-top: 22px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--line);
+      color: var(--green);
+      font-size: 18pt;
+    }
+
+    h3 {
+      margin-top: 14px;
+      color: #23352f;
+      font-size: 13.5pt;
+    }
+
+    p { margin: 8px 0; }
+    ul, ol { margin: 8px 0 10px 20px; padding: 0; }
+    li { margin: 4px 0; }
+    code {
+      padding: 1px 4px;
+      border-radius: 4px;
+      color: #1d4739;
+      background: #edf3ef;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 10pt;
+    }
+
+    table {
+      width: 100%;
+      margin: 10px 0 12px;
+      border-collapse: collapse;
+      font-size: 10.3pt;
+    }
+
+    th, td {
+      padding: 7px 8px;
+      border: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      color: #0f3328;
+      background: var(--soft-green);
+      text-align: left;
+    }
+
+    .cover {
+      min-height: 246mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 18px;
+      page-break-after: always;
+      border-left: 10px solid var(--green);
+      padding-left: 26px;
+    }
+
+    .badge {
+      display: inline-block;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #102018;
+      background: linear-gradient(135deg, #8fd3ab, var(--sand));
+      font-weight: 700;
+      font-size: 10pt;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .subtitle {
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 15pt;
+    }
+
+    .meta {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 10.5pt;
+    }
+
+    .section {
+      page-break-inside: avoid;
+    }
+
+    .callout {
+      margin: 12px 0;
+      padding: 12px 14px;
+      border-left: 5px solid var(--green);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .warning {
+      border-left-color: var(--clay);
+      background: #fff4ef;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .card {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+      page-break-inside: avoid;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 10pt;
+    }
+
+    .script {
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #102018;
+      color: #f7f1e8;
+    }
+
+    .script strong { color: var(--sand); }
+
+    .page-break {
+      page-break-before: always;
+    }
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <span class="badge">Guia de apresentação</span>
+    <h1>Maresia Log</h1>
+    <p class="subtitle">
+      Documento de apoio para explicar o projeto, a proposta de negócio e a parte técnica em AngularJS.
+    </p>
+    <div class="meta">
+      Projeto acadêmico de Programação Avançada<br>
+      Aplicação principal: <strong>AngularJS 1.8.2</strong><br>
+      Desafio extra: <strong>Vue.js 3 + Vite</strong>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>1. Visão Geral do Projeto</h2>
+    <p>
+      A <strong>Maresia Log</strong> é uma empresa fictícia de logística refrigerada. A ideia do sistema é apoiar pequenos produtores de alimentos frescos em Salvador e Região Metropolitana, conectando esses produtores a restaurantes, cafés e mercados de bairro.
+    </p>
+    <p>
+      O projeto apresenta uma interface web com rotas, coletas, entregas, controle de temperatura, alertas operacionais, filtros por bairro e componentes de interação.
+    </p>
+
+    <div class="callout">
+      <strong>Frase para explicar:</strong><br>
+      "O projeto é um protótipo front-end de uma plataforma de logística refrigerada. Ele simula rotas, coletas, alertas e dados operacionais para demonstrar AngularJS, componentes reutilizáveis e interação com o usuário."
+    </div>
+
+    <h3>Para que serve?</h3>
+    <ul>
+      <li>Visualizar rotas refrigeradas da semana.</li>
+      <li>Filtrar rotas por bairro.</li>
+      <li>Simular uma coleta com responsável, horário e temperatura.</li>
+      <li>Agendar uma rota piloto com produtor, carga e janela final.</li>
+      <li>Visualizar alertas operacionais gerados pelas condições do sistema.</li>
+      <li>Mostrar feedback ao usuário por notificações toast.</li>
+    </ul>
+
+    <h3>Isso é um MVP?</h3>
+    <p>
+      Pode ser explicado como um <strong>MVP front-end acadêmico</strong> ou um <strong>protótipo funcional de interface</strong>. Ele não é um sistema de produção completo, porque não tem backend, login, banco de dados real ou API. Mesmo assim, ele valida a ideia principal: uma interface simples para acompanhar rotas refrigeradas.
+    </p>
+  </section>
+
+  <section class="section">
+    <h2>2. O Que Foi Implementado</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Funcionalidade</th>
+          <th>Como funciona no projeto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Filtro por bairro</td>
+          <td>O menu suspenso altera o bairro selecionado e a lista mostra apenas as rotas daquele bairro.</td>
+        </tr>
+        <tr>
+          <td>Simular coleta</td>
+          <td>Abre um formulário. O usuário escolhe rota, responsável, temperatura e janela de coleta. Ao confirmar, a rota muda de status, o resumo operacional é atualizado e a temperatura entra no gráfico.</td>
+        </tr>
+        <tr>
+          <td>Agendar rota piloto</td>
+          <td>Abre um formulário para criar uma nova rota com bairro, produtor, carga, temperatura prevista e janela final.</td>
+        </tr>
+        <tr>
+          <td>Ver alerta operacional</td>
+          <td>Mostra alertas calculados pelo sistema, como temperatura acima do limite, coletas pendentes e rotas com ocorrência térmica.</td>
+        </tr>
+        <tr>
+          <td>Gráfico de temperatura</td>
+          <td>As barras são renderizadas a partir das leituras salvas no estado local. Novas coletas e rotas acrescentam dados ao gráfico.</td>
+        </tr>
+        <tr>
+          <td>Persistência</td>
+          <td>Os dados são salvos no <code>localStorage</code> do navegador, então continuam existindo depois de atualizar a página.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <h2>3. Tecnologias Usadas</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Tecnologia</th>
+          <th>Uso no projeto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>HTML5</td>
+          <td>Estrutura da página, formulários, seções, botões e conteúdo.</td>
+        </tr>
+        <tr>
+          <td>CSS3</td>
+          <td>Layout, responsividade, cores, cards, modal, animações e aparência geral.</td>
+        </tr>
+        <tr>
+          <td>AngularJS 1.8.2</td>
+          <td>Framework principal da aplicação, usado com controller, services, directives e bindings.</td>
+        </tr>
+        <tr>
+          <td>localStorage</td>
+          <td>Persistência local no navegador, usada para guardar rotas, temperaturas, alertas e resumo operacional.</td>
+        </tr>
+        <tr>
+          <td>Vue.js 3 + Vite</td>
+          <td>Versão extra do mesmo projeto, feita como desafio adicional.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warning callout">
+      <strong>Importante:</strong> o projeto não usa backend. Por isso, os dados não vão para um servidor. Eles ficam salvos somente no navegador do usuário, via <code>localStorage</code>.
+    </div>
+  </section>
+
+  <section class="section page-break">
+    <h2>4. Estrutura de Pastas</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Arquivo/Pasta</th>
+          <th>Função</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>angularjs-maresia/index.html</code></td>
+          <td>Ponto de entrada da aplicação AngularJS. Contém o HTML da página e chama os scripts.</td>
+        </tr>
+        <tr>
+          <td><code>assets/css/styles.css</code></td>
+          <td>Todo o visual da aplicação: layout, cores, cards, modais, botões e responsividade.</td>
+        </tr>
+        <tr>
+          <td><code>src/app.js</code></td>
+          <td>Cria o módulo raiz do AngularJS: <code>maresiaApp</code>.</td>
+        </tr>
+        <tr>
+          <td><code>src/controllers/mainController.js</code></td>
+          <td>Controla a lógica principal: filtros, formulários, rotas, gráfico, alertas e chamadas aos serviços.</td>
+        </tr>
+        <tr>
+          <td><code>src/services/dataService.js</code></td>
+          <td>Fornece dados iniciais, carrega e salva dados no <code>localStorage</code>.</td>
+        </tr>
+        <tr>
+          <td><code>src/services/toastService.js</code></td>
+          <td>Serviço de notificações temporárias.</td>
+        </tr>
+        <tr>
+          <td><code>src/directives/</code></td>
+          <td>Componentes reutilizáveis AngularJS: acordeão, dropdown, paginação, progresso, abas e toast.</td>
+        </tr>
+        <tr>
+          <td><code>vue-maresia-desafio/</code></td>
+          <td>Versão extra em Vue.js, com componentes equivalentes.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <h2>5. Como o AngularJS Entra no Projeto</h2>
+    <p>
+      O projeto usa <strong>AngularJS</strong>, que é a versão 1.x do Angular. Ele é diferente do Angular moderno. O AngularJS trabalha muito com <strong>controllers</strong>, <strong>$scope</strong>, <strong>directives</strong> e <strong>data binding</strong>.
+    </p>
+
+    <h3>Fluxo básico</h3>
+    <ol>
+      <li>O arquivo <code>index.html</code> declara <code>ng-app="maresiaApp"</code>.</li>
+      <li>O arquivo <code>src/app.js</code> cria o módulo AngularJS chamado <code>maresiaApp</code>.</li>
+      <li>O <code>body</code> usa <code>ng-controller="MainController"</code>.</li>
+      <li>O <code>MainController</code> coloca dados e funções no <code>$scope</code>.</li>
+      <li>O HTML lê esses dados com <code>{{ }}</code> e reage a eventos com diretivas como <code>ng-click</code>, <code>ng-repeat</code> e <code>ng-submit</code>.</li>
+    </ol>
+
+    <div class="callout">
+      <strong>Explicação simples:</strong><br>
+      "O AngularJS liga o JavaScript ao HTML. Quando um dado muda no controller, a tela atualiza. Quando o usuário clica em um botão ou envia um formulário, o Angular chama uma função no controller."
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>6. Conceitos que o Professor Pode Perguntar</h2>
+
+    <h3>Módulo</h3>
+    <p>
+      O módulo é o contêiner principal da aplicação AngularJS. Neste projeto ele é criado em <code>src/app.js</code>:
+      <code>angular.module('maresiaApp', [])</code>.
+    </p>
+
+    <h3>Controller</h3>
+    <p>
+      O controller é responsável por controlar o estado da tela e responder às ações do usuário. No projeto, o <code>MainController</code> guarda rotas, bairro selecionado, dados do gráfico, formulários e funções como <code>confirmPickup()</code> e <code>confirmPilotRoute()</code>.
+    </p>
+
+    <h3>$scope</h3>
+    <p>
+      O <code>$scope</code> é o objeto que faz a ponte entre o controller e o HTML. Quando o controller define <code>$scope.rotas</code>, o HTML consegue usar essa lista com <code>ng-repeat</code>.
+    </p>
+
+    <h3>Service / Factory</h3>
+    <p>
+      Services guardam lógica reutilizável. O <code>dataService</code> centraliza dados e persistência no <code>localStorage</code>. O <code>toastService</code> centraliza mensagens de feedback.
+    </p>
+
+    <h3>Directive</h3>
+    <p>
+      Diretiva é a forma do AngularJS criar componentes reutilizáveis ou comportamentos no HTML. Neste projeto, componentes como <code>&lt;m-dropdown&gt;</code>, <code>&lt;m-pagination&gt;</code> e <code>&lt;m-toast&gt;</code> são diretivas.
+    </p>
+
+    <h3>Data Binding</h3>
+    <p>
+      Data binding é a ligação entre dado e interface. Exemplo: <code>{{ operationSummary.currentTime }}</code> mostra na tela o valor atual desse dado.
+    </p>
+
+    <h3>Two-way Binding</h3>
+    <p>
+      É quando a interface e o JavaScript compartilham o mesmo valor. Exemplo: em formulários, <code>ng-model="pickupForm.responsavel"</code> atualiza o objeto do controller conforme o usuário digita.
+    </p>
+
+    <h3>Dependency Injection</h3>
+    <p>
+      AngularJS injeta dependências automaticamente no controller. O projeto usa <code>MainController.$inject = ['$scope', 'dataService', 'toastService']</code> para declarar o que o controller precisa receber.
+    </p>
+
+    <h3>Digest Cycle</h3>
+    <p>
+      É o mecanismo interno do AngularJS que observa mudanças no <code>$scope</code> e atualiza a tela. Você não precisa chamar render manualmente; o AngularJS faz essa sincronização.
+    </p>
+  </section>
+
+  <section class="section page-break">
+    <h2>7. Componentes Obrigatórios</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Componente</th>
+          <th>Arquivo</th>
+          <th>Explicação curta</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Acordeão</td>
+          <td><code>mAccordion.js</code></td>
+          <td>Mostra perguntas frequentes; abre e fecha respostas.</td>
+        </tr>
+        <tr>
+          <td>Paginação</td>
+          <td><code>mPagination.js</code></td>
+          <td>Divide a lista de rotas em páginas.</td>
+        </tr>
+        <tr>
+          <td>Barra de progresso</td>
+          <td><code>mProgress.js</code></td>
+          <td>Mostra o percentual de implantação da rota piloto.</td>
+        </tr>
+        <tr>
+          <td>Abas</td>
+          <td><code>mTabs.js</code></td>
+          <td>Organiza texto por público: produtores, restaurantes e operação.</td>
+        </tr>
+        <tr>
+          <td>Dropdown</td>
+          <td><code>mDropdown.js</code></td>
+          <td>Menu suspenso usado para filtrar rotas por bairro.</td>
+        </tr>
+        <tr>
+          <td>Toast</td>
+          <td><code>mToast.js</code></td>
+          <td>Mostra mensagens temporárias de sucesso, erro ou informação.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <h2>8. Regras de Negócio Simuladas</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>Coleta</h3>
+        <p>Uma coleta registra responsável, rota, temperatura e janela. Se a temperatura for alta, a rota pode virar alerta térmico.</p>
+      </div>
+      <div class="card">
+        <h3>Rota piloto</h3>
+        <p>Cria uma rota nova para testar atendimento com produtor, carga e janela final.</p>
+      </div>
+      <div class="card">
+        <h3>Alerta operacional</h3>
+        <p>É calculado a partir do estado: temperatura alta, média elevada, rotas com alerta térmico ou coletas pendentes.</p>
+      </div>
+      <div class="card">
+        <h3>Gráfico</h3>
+        <p>Mostra leituras de temperatura salvas localmente. Cada nova ação pode adicionar uma leitura.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>9. Perguntas Prováveis e Respostas Curtas</h2>
+    <h3>O projeto tem banco de dados?</h3>
+    <p>Não. Ele usa <code>localStorage</code>, que é armazenamento local do navegador.</p>
+
+    <h3>O projeto é Angular moderno?</h3>
+    <p>Não. É <strong>AngularJS 1.8.2</strong>, a versão antiga, baseada em controllers, <code>$scope</code>, services e directives.</p>
+
+    <h3>Por que usar services?</h3>
+    <p>Para separar responsabilidades. O controller não precisa guardar sozinho a lógica de dados e notificações.</p>
+
+    <h3>Por que usar directives?</h3>
+    <p>Para transformar partes repetidas da interface em componentes reutilizáveis.</p>
+
+    <h3>Qual é a diferença entre controller e directive?</h3>
+    <p>O controller orquestra a página inteira. A directive cuida de um componente específico da interface.</p>
+
+    <h3>O alerta operacional é criado pelo usuário?</h3>
+    <p>Não. Ele é visualizado pelo usuário, mas é gerado pelo sistema com base nas condições da operação.</p>
+
+    <h3>O que acontece ao atualizar a página?</h3>
+    <p>Os dados alterados continuam salvos porque o projeto usa <code>localStorage</code>.</p>
+  </section>
+
+  <section class="section">
+    <h2>10. Roteiro de Fala</h2>
+    <div class="script">
+      <p>
+        <strong>Começo:</strong> "Esse projeto é a Maresia Log, um protótipo front-end de uma empresa fictícia de logística refrigerada para pequenos produtores."
+      </p>
+      <p>
+        <strong>Funcionalidade:</strong> "Na tela eu consigo ver rotas, filtrar por bairro, simular coleta, agendar rota piloto e visualizar alertas operacionais. Os dados ficam salvos no localStorage."
+      </p>
+      <p>
+        <strong>Tecnologia:</strong> "A aplicação principal foi feita em AngularJS 1.8.2. O HTML se conecta ao MainController pelo ng-controller, o controller controla o estado pelo $scope, os services centralizam dados e notificações, e as directives implementam os componentes obrigatórios."
+      </p>
+      <p>
+        <strong>Fechamento:</strong> "Então é um MVP/protótipo funcional de interface: não tem backend, mas demonstra a experiência e a lógica principal do sistema."
+      </p>
+    </div>
+  </section>
+</body>
+</html>
